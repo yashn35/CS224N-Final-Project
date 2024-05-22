@@ -1,7 +1,7 @@
-import random
 import os
-from openai import OpenAI
 import json
+import numpy as np
+from openai import OpenAI
 import ast
 
 client = OpenAI(
@@ -39,44 +39,49 @@ OUTPUT THE RANKINGS AS A DICTIONARY OF EACH ITEM WITH THE ITEM AND ITS CORRESPON
 """
 
 agents = [
-    {"name": "Alice", "gender": "female", "persona": "a resourceful survival expert"},
-    {"name": "Bob", "gender": "male", "persona": "a practical and logical thinker"},
-    {"name": "Charlie", "gender": "male", "persona": "an adventurous and risk-taking individual"},
-    {"name": "Daisy", "gender": "female", "persona": "a cautious and detail-oriented planner"},
-    {"name": "Eve", "gender": "female", "persona": "a creative and imaginative problem-solver"},
-    {"name": "Frank", "gender": "male", "persona": "a no-nonsense pragmatist"},
     {"name": "Grace", "gender": "female", "persona": "a calm and collected decision-maker"},
     {"name": "Hank", "gender": "male", "persona": "a strategic and analytical thinker"},
     {"name": "Ivy", "gender": "female", "persona": "an empathetic and cooperative team player"},
     {"name": "Jack", "gender": "male", "persona": "a curious and open-minded explorer"}
 ]
 
-# TODO: Introduce some sort of thought associated with the ranking. Iteratively adjust rankings based on previous thoughts and reflections. 
-def generate_individual_ranking(prompt, persona):
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": f"You are an agent in a desert survival game. This is your persona {persona}"},
-            {"role": "user", "content": prompt}
-        ]
-    )
-    
-    message_content = response.choices[0].message.content.strip()
-    # Clean the response content
-    if message_content.startswith("```") and message_content.endswith("```"):
-        message_content = message_content[9:-3].strip()
+# test = ['Grace_feedback_0.json', 'Hank_feedback_0.json', 'Ivy_feedback_0.json', 'Jack_feedback_0.json']
 
-    # rankings_dict = json.loads(message_content)
-    rankings_dict = ast.literal_eval(message_content)
+# Assuming the files are in the same directory
+test_files = ['interactions/Grace_feedback_0.json', 'interactions/Hank_feedback_0.json', 'interactions/Ivy_feedback_0.json', 'interactions/Jack_feedback_0.json']
 
-    return rankings_dict
+# Load feedback from files
+feedback_data = {}
+for file in test_files:
+    with open(file, 'r') as f:
+        agent_name = file.split('_')[0]
+        print(agent_name)
+        feedback_data[agent_name] = json.load(f)
 
-output_folder = "rankings"
-os.makedirs(output_folder, exist_ok=True)
+
+
+def save_interaction(agent_name, interaction, step, type):
+    with open(os.path.join("interactions", f"{agent_name}_{type}_{step}.json"), "w") as f:
+        json.dump(interaction, f, indent=4)
+
 
 for agent in agents:
-    cur_rankings = generate_individual_ranking(PROMPT, agent)
-    with open(os.path.join(output_folder, f"{agent['name']}.json"), "w") as f:
-        json.dump(cur_rankings, f, indent=4)
-    print(f"THIS AGENT IS DONE::: {agent}")
+            path = f"interactions/{agent['name']}"
+            feedback_summary = " ".join(feedback_data[path])
+            rerank_prompt = f"Feedback received: {feedback_summary}. Now, reconsider and re-rank the items based on the feedback from your peers. Recall that this is the scenario of the game which you used to base your initial rankings {PROMPT}"
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": f"You are {agent['name']}, {agent['persona']}. Reconsider and re-rank the items. OUTPUT THE RANKINGS AS A DICTIONARY OF EACH ITEM WITH THE ITEM AND ITS CORRESPONDING RANKING. EACH RANKING MUST BE AN INTEGER BETWEEN 1 AND 15 INCLUSIVE AND EACH NUMBER MUST SHOW UP EXACTLY ONCE. DO NOT INCLUDE ANY MISCELLANEOUS INFORMATION. ONLY OUTPUT A DICTIONARY AND NAMES SHOULD BE EXACTLY AS BEFORE."},
+                    {"role": "user", "content": rerank_prompt}
+                ]
+            )
+            rerank_content = response.choices[0].message.content.strip()
+            print(f"RERANK::: {rerank_content}")
+            # Clean the response content
+            if rerank_content.startswith("```") and rerank_content.endswith("```"):
+                rerank_content = rerank_content[9:-3].strip()
 
+            new_ranking = ast.literal_eval(rerank_content)
+            # rankings[agent["name"]] = new_ranking
+            save_interaction(agent["name"], {"new_ranking": new_ranking}, 0, "ranking")

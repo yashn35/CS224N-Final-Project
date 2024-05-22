@@ -3,7 +3,7 @@ import json
 import pandas as pd
 # TODO: Generate a function that gives them a score 
 # Folder containing the individual ranking JSON files
-input_folder = "rankings"
+input_folder = "interactions"
 
 baseline_rankings = {
     "Torch with 4 battery-cells": 4,
@@ -37,17 +37,21 @@ scores = []
 
 # Load each JSON file and calculate the score
 for filename in os.listdir(input_folder):
-    if filename.endswith(".json"):
+    if filename.endswith("ranking_0.json"):
         with open(os.path.join(input_folder, filename), "r") as f:
             ranking = json.load(f)
-        participant_name = filename.split(".")[0]
+            ranking = ranking['new_ranking']
+            print(ranking)
+        participant_name = filename.split("_")[0]
+        print(participant_name)
         score = calculate_score(baseline_rankings, ranking)
+        
         scores.append({"Participant": participant_name, "Score": score})
 
 # Convert scores to DataFrame
 scores_df = pd.DataFrame(scores)
 
 # Save scores to CSV
-scores_df.to_csv("scores.csv", index=False)
+scores_df.to_csv("after_feedback_scores.csv", index=False)
 
 print("Scores saved to scores.csv")
