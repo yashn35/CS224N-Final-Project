@@ -8,7 +8,7 @@ import ast
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
+    api_key="sk-proj-5sUBnB64lgAGV6H16O66T3BlbkFJp81fwJmQgiOgYw7kzWf1",
 )
 
 # Define the 15 items for the desert survival challenge

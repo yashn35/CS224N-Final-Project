@@ -6,7 +6,7 @@ import ast
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
+    api_key="sk-proj-5sUBnB64lgAGV6H16O66T3BlbkFJp81fwJmQgiOgYw7kzWf1",
 )
 
 PROMPT = """
@@ -51,7 +51,9 @@ agents = [
     {"name": "Jack", "gender": "male", "persona": "a curious and open-minded explorer"}
 ]
 
-# TODO: Introduce some sort of thought associated with the ranking. Iteratively adjust rankings based on previous thoughts and reflections. 
+
+# TODO: Introduce some sort of thought associated with the ranking.
+#  Iteratively adjust rankings based on previous thoughts and reflections.
 def generate_individual_ranking(prompt, persona):
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -71,12 +73,76 @@ def generate_individual_ranking(prompt, persona):
 
     return rankings_dict
 
-output_folder = "rankings"
-os.makedirs(output_folder, exist_ok=True)
 
-for agent in agents:
-    cur_rankings = generate_individual_ranking(PROMPT, agent)
-    with open(os.path.join(output_folder, f"{agent['name']}.json"), "w") as f:
-        json.dump(cur_rankings, f, indent=4)
-    print(f"THIS AGENT IS DONE::: {agent}")
+def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
+    """
 
+    :param ranking_folder: string:= path to folder where the groups rankings are stored
+    :param output_folder: string:= name of output_folder
+    :param agent_names: list of names of all agents
+    :param trials: number of repetitions
+    :return:
+    """
+    for t in range(trials):
+        rankings = {}
+        # Load all rankings of trial t+1
+        for agent in agent_names:
+            path = os.path.join(ranking_folder, agent)
+            with open(os.path.join(path, f"t{t+1}{agent}.json"), 'r') as f:
+                rankings[agent] = json.load(f)
+            f.close()
+        # Calculate avg_rankings
+        avg_rankings = aggregate_rankings(rankings)
+        with open(os.path.join(ranking_folder, f"{output_folder}/t{t+1}{output_folder}.json"), "w") as f:
+            json.dump(avg_rankings, f, indent=4)
+        f.close()
+
+
+# get_avg_rankings("rankings", "avg", list(agents.keys()))
+
+
+def run_experiments(output_folder, agent_names, trials=5):
+    """
+    :param output_folder: string:= path to folder to hold all the rankings
+    :param agent_names: list of names of all agents
+    :param trials: number of repetitions
+    :return: None
+    """
+    os.makedirs(output_folder, exist_ok=True)
+    for t in range(trials):
+        print(f"Beginning trial {t+1}")
+        for agent in agent_names:
+            cur_rankings = generate_individual_ranking(PROMPT, agent)
+            ranking_path = output_folder+"/"+agent
+            if not os.path.exists(ranking_path):
+                os.makedirs(ranking_path)
+            with open(os.path.join(ranking_path, f"t{t+1}{agent}.json"), "w") as f:
+                json.dump(cur_rankings, f, indent=4)
+            print(f"THIS AGENT IS DONE::: {agent}")
+
+
+# run_experiments("rankings", list(agents.keys()))
+
+
+# ------------------------------------------------------------------------------
+# --------------------------- DEPRECATED ---------------------------------------
+# ------------------------------------------------------------------------------
+
+
+def aggregate_rankings(rankings):
+    """
+    :param rankings: Dict of dicts {name: {item: rank, item: rank, ...}, ...}
+    Calculates new_rank for each item by averaging the ranks across names and reranking.
+    :return: Dict {item: new_rank, item: new_rank, ...}
+    """
+    avg_rankings = {}
+    for ranking in rankings.values():
+        for item in ranking.keys():
+            if item not in avg_rankings.keys():
+                avg_rankings[item] = 0
+            avg_rankings[item] += ranking[item]
+    avg_rankings_list = [(k, v) for k, v in sorted(avg_rankings.items(), key=lambda item: item[1])]
+    print(avg_rankings_list)
+    new_rankings = {avg_rankings_list[i][0]: i+1 for i in range(len(avg_rankings_list))}
+    print(new_rankings)
+    return new_rankings
