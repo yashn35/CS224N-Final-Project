@@ -6,7 +6,7 @@ import ast
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
+    api_key="sk-proj-TLP1MOY3CCeLbKdSQ6dAT3BlbkFJTmRJQtp48gjUOnWLXXGq",
 )
 
 PROMPT = """
@@ -69,9 +69,32 @@ def generate_individual_ranking(prompt, persona):
         message_content = message_content[9:-3].strip()
 
     # rankings_dict = json.loads(message_content)
-    rankings_dict = ast.literal_eval(message_content)
+    try:
+        rankings_dict = ast.literal_eval(message_content)
+    except:
+        print(message_content)
+        rankings_dict = {}
 
     return rankings_dict
+
+
+def aggregate_rankings(rankings):
+    """
+    :param rankings: Dict of dicts {name: {item: rank, item: rank, ...}, ...}
+    Calculates new_rank for each item by averaging the ranks across names and reranking.
+    :return: Dict {item: new_rank, item: new_rank, ...}
+    """
+    avg_rankings = {}
+    for ranking in rankings.values():
+        for item in ranking.keys():
+            if item not in avg_rankings.keys():
+                avg_rankings[item] = 0
+            avg_rankings[item] += ranking[item]
+    avg_rankings_list = [(k, v) for k, v in sorted(avg_rankings.items(), key=lambda item: item[1])]
+    #print(avg_rankings_list)
+    new_rankings = {avg_rankings_list[i][0]: i+1 for i in range(len(avg_rankings_list))}
+    #print(new_rankings)
+    return new_rankings
 
 
 def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
@@ -98,7 +121,8 @@ def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
         f.close()
 
 
-# get_avg_rankings("rankings", "avg", list(agents.keys()))
+#agent_names = ["Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace"]
+#get_avg_rankings("rankings/t100", "avg", agent_names, trials=96)
 
 
 def run_experiments(output_folder, agent_names, trials=5):
@@ -109,40 +133,17 @@ def run_experiments(output_folder, agent_names, trials=5):
     :return: None
     """
     os.makedirs(output_folder, exist_ok=True)
-    for t in range(trials):
-        print(f"Beginning trial {t+1}")
-        for agent in agent_names:
-            cur_rankings = generate_individual_ranking(PROMPT, agent)
-            ranking_path = output_folder+"/"+agent
-            if not os.path.exists(ranking_path):
-                os.makedirs(ranking_path)
-            with open(os.path.join(ranking_path, f"t{t+1}{agent}.json"), "w") as f:
-                json.dump(cur_rankings, f, indent=4)
-            print(f"THIS AGENT IS DONE::: {agent}")
+    for agent in agent_names:
+        if agent != "Alice":
+            for t in range(trials):
+                print(f"Beginning trial {t + 1}")
+                cur_rankings = generate_individual_ranking(PROMPT, agent)
+                ranking_path = output_folder+"/"+agent
+                if not os.path.exists(ranking_path):
+                    os.makedirs(ranking_path)
+                with open(os.path.join(ranking_path, f"t{t+1}{agent}.json"), "w") as f:
+                    json.dump(cur_rankings, f, indent=4)
+        print(f"THIS AGENT IS DONE::: {agent}")
 
 
-# run_experiments("rankings", list(agents.keys()))
-
-
-# ------------------------------------------------------------------------------
-# --------------------------- DEPRECATED ---------------------------------------
-# ------------------------------------------------------------------------------
-
-
-def aggregate_rankings(rankings):
-    """
-    :param rankings: Dict of dicts {name: {item: rank, item: rank, ...}, ...}
-    Calculates new_rank for each item by averaging the ranks across names and reranking.
-    :return: Dict {item: new_rank, item: new_rank, ...}
-    """
-    avg_rankings = {}
-    for ranking in rankings.values():
-        for item in ranking.keys():
-            if item not in avg_rankings.keys():
-                avg_rankings[item] = 0
-            avg_rankings[item] += ranking[item]
-    avg_rankings_list = [(k, v) for k, v in sorted(avg_rankings.items(), key=lambda item: item[1])]
-    print(avg_rankings_list)
-    new_rankings = {avg_rankings_list[i][0]: i+1 for i in range(len(avg_rankings_list))}
-    print(new_rankings)
-    return new_rankings
+# run_experiments("rankings/t100", [agent['name'] for agent in agents], trials=100)

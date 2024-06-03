@@ -1,0 +1,4 @@
+===== ROLES WITH DESCRIPTION =====
+{user_role} and {assistant_role} are collaborating to complete a task: {task}.
+Competencies, characteristics, duties and workflows of {user_role} to complete the task: {user_description}
+{assistant_role}'s competencies, characteristics, duties and workflows to complete the task: {assistant_description}

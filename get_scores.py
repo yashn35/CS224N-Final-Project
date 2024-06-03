@@ -101,28 +101,37 @@ def get_group_scores(path, trials=5):
     return group_scores, infls
 
 
-# group_scores, infls = get_group_scores("rankings/avg")
-# df = pd.DataFrame.from_dict(infls)
-# df.to_csv("indiv_infls_5.csv")
-# print(df.mean(axis=0))
+#group_scores, infls = get_group_scores("rankings/avg")
+#df = pd.DataFrame.from_dict(infls)
+#df.to_csv("indiv_infls_100.csv")
+#print(df.mean(axis=0))
 
-def get_indiv_scores(expert_rankings):
+
+def get_indiv_scores(ranking_path, expert_rankings, agent_names):
     scores = {}
-    score_folder = "rankings"
-    for agent in agents:
-        scores[agent['name']] = []
-        print(f"Getting {agent['name']} scores")
-        path = os.path.join(score_folder, agent["name"])
+    for agent in agent_names:
+        scores[agent] = []
+        print(f"Getting {agent} scores")
+        path = os.path.join(ranking_path, agent)
         for filename in os.listdir(path):
-            with open(os.path.join(path, filename), "r") as f:
-                ranking = json.load(f)
-            score = calculate_score(expert_rankings, ranking)
-            scores[agent['name']].append(score)
+            if "97" in filename or "98" in filename or "99" in filename or "100" in filename:
+                pass
+            else:
+                with open(os.path.join(path, filename), "r") as f:
+                    ranking = json.load(f)
+                score = calculate_score(expert_rankings, ranking)
+                scores[agent].append(score)
     return scores
 
 
-#df = pd.DataFrame.from_dict(get_indiv_scores())
-#df.to_csv("indiv_scores_5.csv")
+#agent_names = ["Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace"]
+#ranking_path = "rankings/t100"
+#df = pd.DataFrame.from_dict(get_indiv_scores(ranking_path, expert_rankings, agent_names))
+#df.to_csv("indiv_scores_96.csv")
+#print(df.mean(axis=0))
+
+
+#df = pd.read_csv("indiv_scores_5.csv")
 #print(df.mean(axis=0))
 
 

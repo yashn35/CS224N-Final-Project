@@ -66,17 +66,77 @@ interaction_folder = "interactions"
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(interaction_folder, exist_ok=True)
 
-def load_rankings():
+
+def load_rankings(agent_names, path, t):
     rankings = {}
-    for agent in agents:
-        with open(os.path.join(output_folder, f"{agent['name']}.json"), "r") as f:
-            rankings[agent["name"]] = json.load(f)
+    for agent in agent_names:
+        filename = os.path.join(path, f"t{t}{agent}.json")
+        with open(filename, "r") as f:
+            rankings[agent] = json.load(f)
     return rankings
 
+
+# TODO: Update for trials and stuff
 def save_interaction(agent_name, interaction, step, type):
     with open(os.path.join(interaction_folder, f"{agent_name}_{type}_{step}.json"), "w") as f:
         json.dump(interaction, f, indent=4)
 
+
+# TODO maybe record number of iterations to converge
+def run_democracy(path_to_rankings, agent_names, trials=5, max_interacts=1, verbose=False):
+    """
+    Vote on which ranking is the best.
+        1. Load individual rankings for the trial
+        2. Prompt each agent to vote on the ranking they like the most
+            2a) Prompt each agent to explain why they like that one the most
+            2b) Give each agent the reasons from all the other agents and ask to vote again
+            2c) Repeat 2a and 2b until max level of interactions is reached or agents converge
+        3. The ranking that gets the most votes is selected as the group ranking
+    :param:
+        verbose: print outputs and reasoning if true. saves to file if false
+        agent_names: list of agent names
+    :return: group ranking
+    """
+    all_rankings = []
+    for trial in range(1, trials+1):
+        all_rankings.append(load_rankings(agent_names, path_to_rankings, trial))
+
+
+def run_one_by_one(path_to_rankings, agent_names, trials=5, max_interacts=1, verbose=False):
+    """
+    Vote on which item should be first, then second, then third, etc.
+        1. Load individual rankings for the trial
+        2. Prompt each agent to vote on which item they think is the most important
+            2a) Prompt each agent to explain why they think that item is the most important
+            2b) Give each agent the reasons from all the other agents and ask to vote again
+            2c) Repeat 2a and 2b until max level of interactions is reached or agents converge
+        3. Repeat step 2 until all items have been ranked and return the group ranking
+    :param:
+        verbose: print outputs and reasoning if true. saves to file if false
+        agent_names: list of agent names
+    :return: group ranking
+    """
+
+
+def run_dictatorship(path_to_rankings, agent_names, trials=5, max_interacts=1, verbose=False):
+    """
+    A randomly selected dictator considers all rankings and reasoning and decides the best ranking
+        1. Load individual rankings for the trial
+        2. Randomly choose a dictator agent
+        2. The dictator poses the question of why each agent made their ranking
+            2a) Prompt each agent to answer the dictator's question
+            2b) The dictator considers all the answers and can either ask a question or pick a ranking
+            2c) Repeat 2a and 2b until max level of interactions is reached or the dictator picks a ranking
+        3. The ranking the dictator picked is chosen to be the group's ranking
+    :param:
+        verbose: print outputs and reasoning if true. saves to file if false
+        agent_names: list of agent names
+    :return: group ranking
+    """
+
+
+
+# ------ DEPRECATED ------
 def simulate_discussion(rankings):
     for step in range(1):  # Rounds of discussion, that is feedback back and forth
         step_feedback = {}
