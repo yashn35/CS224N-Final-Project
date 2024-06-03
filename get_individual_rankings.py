@@ -6,7 +6,7 @@ import ast
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key="sk-proj-TLP1MOY3CCeLbKdSQ6dAT3BlbkFJTmRJQtp48gjUOnWLXXGq",
+    api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 PROMPT = """
