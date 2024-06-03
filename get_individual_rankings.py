@@ -6,8 +6,9 @@ import ast
 
 client = OpenAI(
     # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
+    #api_key=os.environ.get("OPENAI_API_KEY"),
 )
+
 
 PROMPT = """
 It is approximately 10:00 am in mid-July and you have just crash landed in the Atacama Desert in South America. Your light twin-engined plane containing the bodies of the pilot and co-pilot has completely burned out with only the frame remaining. None of you have been injured.
