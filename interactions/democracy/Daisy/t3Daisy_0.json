@@ -1,0 +1,21 @@
+{
+    "name": "Charlie's ranking",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Folding knife": 3,
+        "Sunglasses (for everyone)": 4,
+        "Overcoat (for everyone)": 5,
+        "First-aid kit": 6,
+        "Magnetic compass": 7,
+        "Air map of the area": 8,
+        "A cosmetic mirror": 9,
+        "Parachute (red & white)": 10,
+        "Torch with 4 battery-cells": 11,
+        "2 litres of 180 proof liquor": 12,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Charlie's ranking prioritizes water, which is crucial for survival in the extreme desert heat. The plastic raincoat and overcoat can be used to create shade and prevent dehydration. The folding knife and first-aid kit are essential for any immediate survival needs or injuries. Sunglasses protect against the intense sun, and the magnetic compass along with the air map aid in navigation to the mining camp. Overall, this ranking provides a balanced approach to hydration, protection from the elements, immediate medical needs, and navigation."
+}

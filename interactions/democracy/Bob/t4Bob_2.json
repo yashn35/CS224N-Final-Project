@@ -1,0 +1,21 @@
+{
+    "name": "Alice",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "First-aid kit": 3,
+        "Sunglasses (for everyone)": 4,
+        "Overcoat (for everyone)": 5,
+        "Magnetic compass": 6,
+        "Folding knife": 7,
+        "Parachute (red & white)": 8,
+        "Torch with 4 battery-cells": 9,
+        "Cosmetic mirror": 10,
+        "Air map of the area": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Alice's ranking is the best because it rightly prioritizes water, which is critical for survival in a desert environment. Secondarily, the plastic raincoat and overcoat provide essential protection against the extreme sun during the day and cold at night, which helps to avoid heat stroke and hypothermia. The first-aid kit's high ranking is necessary for treating potential injuries immediately. Sunglasses protect against intense UV exposure, which is crucial for maintaining vision. Finally, the inclusion of navigational tools like the magnetic compass ensures we can find our way to the mining camp safely."
+}

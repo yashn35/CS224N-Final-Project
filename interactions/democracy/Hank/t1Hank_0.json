@@ -1,0 +1,21 @@
+{
+    "name": "Bob",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Sunglasses (for everyone)": 2,
+        "Overcoat (for everyone)": 3,
+        "Plastic raincoat (large size)": 4,
+        "First-aid kit": 5,
+        "Parachute (red & white)": 6,
+        "Air map of the area": 7,
+        "Magnetic compass": 8,
+        "Folding knife": 9,
+        "Torch with 4 battery-cells": 10,
+        "A cosmetic mirror": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Bob's ranking prioritizes water and protection from the extreme sun exposure, which are critical for survival in the Atacama Desert. Water is the most essential need in a desert environment. Sunglasses and the overcoat provide critical protection against heat and sunstroke, which can be as lethal as dehydration. The plastic raincoat can be used to create shelter or collect condensation for additional water. Additionally, the prioritization of the first-aid kit and a signaling tool like the parachute further ensures immediate health needs and visibility for rescue attempts."
+}

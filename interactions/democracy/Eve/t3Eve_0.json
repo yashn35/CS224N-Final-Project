@@ -1,0 +1,21 @@
+{
+    "name": "Daisy",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "First-aid kit": 2,
+        "Sunglasses (for everyone)": 3,
+        "Plastic raincoat (large size)": 4,
+        "Overcoat (for everyone)": 5,
+        "Air map of the area": 6,
+        "Magnetic compass": 7,
+        "Parachute (red & white)": 8,
+        "Cosmetic mirror": 9,
+        "Folding knife": 10,
+        "Torch with 4 battery-cells": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "45 calibre pistol (loaded)": 13,
+        "2 litres of 180 proof liquor": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Daisy's ranking prioritizes the essentials that ensure immediate survival and navigation. Water is ranked first, which is crucial in the scorching heat of the Atacama Desert. The first-aid kit and sunglasses follow, addressing potential injuries and protecting against the intense sunlight. Daisy also emphasizes protection from the elements with the plastic raincoat and overcoat, which can be used to shield from the sun's rays or at night when temperatures drop. The inclusion of the air map and magnetic compass enables efficient navigation towards the mining camp, the nearest known settlement."
+}

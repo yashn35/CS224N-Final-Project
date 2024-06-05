@@ -1,0 +1,21 @@
+{
+    "name": "Alice",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Sunglasses (for everyone)": 2,
+        "Plastic raincoat (large size)": 3,
+        "Cosmetic mirror": 4,
+        "First-aid kit": 5,
+        "Air map of the area": 6,
+        "Magnetic compass": 7,
+        "Folding knife": 8,
+        "Torch with 4 battery-cells": 9,
+        "Parachute (red & white)": 10,
+        "Overcoat (for everyone)": 11,
+        "45 calibre pistol (loaded)": 12,
+        "2 litres of 180 proof liquor": 13,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Alice's ranking is pragmatic and prioritizes the most critical needs. Water is correctly placed at the top since hydration is essential in the desert heat. Sunglasses protect against harsh UV rays, while the raincoat and mirror can be used for shelter and signaling respectively. The inclusion of the first-aid kit ensures basic medical needs are covered. Overall, her ranking balances immediate survival concerns with practical tools for navigation and signaling."
+}

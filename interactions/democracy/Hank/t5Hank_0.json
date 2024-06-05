@@ -1,0 +1,21 @@
+{
+    "name": "Eve",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Folding knife": 3,
+        "Sunglasses (for everyone)": 4,
+        "First-aid kit": 5,
+        "Torch with 4 battery-cells": 6,
+        "Air map of the area": 7,
+        "Magnetic compass": 8,
+        "Parachute (red & white)": 9,
+        "Overcoat (for everyone)": 10,
+        "A cosmetic mirror": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Eve's ranking prioritizes the most critical survival item: water, which is essential in the harsh desert environment. The plastic raincoat can be used for shelter or to collect dew. The folding knife is versatile for a variety of immediate survival tasks. Sunglasses help protect the eyes from intense sunlight, and the first-aid kit is vital for treating any injuries. This balanced approach addresses immediate needs for hydration, protection from the elements, and medical emergencies effectively."
+}

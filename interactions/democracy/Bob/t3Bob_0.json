@@ -1,0 +1,21 @@
+{
+    "name": "Bob",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Sunglasses (for everyone)": 3,
+        "Overcoat (for everyone)": 4,
+        "Cosmetic mirror": 5,
+        "First-aid kit": 6,
+        "Magnetic compass": 7,
+        "Folding knife": 8,
+        "Torch with 4 battery-cells": 9,
+        "Air map of the area": 10,
+        "Parachute (red & white)": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Ensuring sufficient hydration is paramount in a desert environment, making water the top priority. The plastic raincoat and overcoat can provide necessary protection from both temperature extremes and sun exposure, which is critical in the extreme heat. Sunglasses are essential to prevent eye damage under the intense sunlight. A mirror can be used for signaling to improve chances of rescue. Lastly, a first-aid kit is crucial to address any potential injuries or health issues that may arise during survival efforts."
+}

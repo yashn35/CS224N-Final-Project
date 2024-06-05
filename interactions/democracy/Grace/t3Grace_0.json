@@ -1,0 +1,21 @@
+{
+    "name": "Alice",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Sunglasses (for everyone)": 2,
+        "Plastic raincoat (large size)": 3,
+        "Folding knife": 4,
+        "Overcoat (for everyone)": 5,
+        "First-aid kit": 6,
+        "Torch with 4 battery-cells": 7,
+        "Parachute (red & white)": 8,
+        "Magnetic compass": 9,
+        "A cosmetic mirror": 10,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 11,
+        "Air map of the area": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Alice's ranking prioritizes water and items for protection from the heat, which are crucial for survival in the extreme temperatures of the Atacama Desert. The inclusion of both the sunglasses and the overcoat within the top five indicates an understanding of the need to manage exposure to the intense sunlight. The folding knife and first-aid kit are ranked sensibly high, ensuring tools are available for immediate emergencies and survival tasks. While the torch and parachute are included, they are not overly prioritized, reducing the risk of focusing on items that are less immediately necessary in daylight. Overall, this ranking provides a balanced approach, addressing hydration, protection, and essential survival tools in a logical order."
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Bob",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "First-aid kit": 2,
+        "Plastic raincoat (large size)": 3,
+        "Sunglasses (for everyone)": 4,
+        "Parachute (red & white)": 5,
+        "A cosmetic mirror": 6,
+        "Folding knife": 7,
+        "Torch with 4 battery-cells": 8,
+        "Air map of the area": 9,
+        "Overcoat (for everyone)": 10,
+        "A book entitled 'Desert Animals That Can Be Eaten'": 11,
+        "Magnetic compass": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Bob's ranking prioritizes essential survival items correctly. Water is the most critical need in a desert environment, ensuring hydration in extreme heat. The first-aid kit is crucial for addressing injuries or health issues which could arise. Items like the plastic raincoat and sunglasses provide necessary protection against the sun and heat, while signaling tools such as the parachute and cosmetic mirror are also given importance. This balanced approach ensures immediate survival needs are met while also considering the possibility of rescue."
+}

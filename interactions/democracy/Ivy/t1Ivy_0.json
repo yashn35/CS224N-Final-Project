@@ -1,0 +1,21 @@
+{
+    "name": "Eve",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Cosmetic mirror": 3,
+        "Sunglasses (for everyone)": 4,
+        "First-aid kit": 5,
+        "Folding knife": 6,
+        "Parachute (red & white)": 7,
+        "Air map of the area": 8,
+        "Torch with 4 battery-cells": 9,
+        "Magnetic compass": 10,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 11,
+        "Overcoat (for everyone)": 12,
+        "45 calibre pistol (loaded)": 13,
+        "2 litres of 180 proof liquor": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Eve's ranking prioritizes the essentials for immediate survival in the harsh desert environment. Water is ranked highest, which is crucial for hydration in high temperatures. The plastic raincoat can also serve as a makeshift shelter from the sun. The cosmetic mirror is a critical tool for signaling rescuers. Sunglasses protect the eyes from intense sunlight, and the first-aid kit addresses potential injuries or health issues."
+}

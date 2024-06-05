@@ -1,0 +1,21 @@
+{
+    "name": "Alice",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Cosmetic mirror": 3,
+        "Sunglasses (for everyone)": 4,
+        "First-aid kit": 5,
+        "Folding knife": 6,
+        "Parachute (red & white)": 7,
+        "Air map of the area": 8,
+        "Torch with 4 battery-cells": 9,
+        "Magnetic compass": 10,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 11,
+        "Overcoat (for everyone)": 12,
+        "45 calibre pistol (loaded)": 13,
+        "2 litres of 180 proof liquor": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Alice's ranking prioritizes water, the most critical resource, directly addressing the immediate threat of dehydration. She correctly identifies the plastic raincoat's multiple uses for shade and potential condensation collection. The cosmetic mirror is well-ranked as a signaling tool for rescue efforts. Sunglasses are crucial for preventing vision impairment due to the harsh sunlight, ensuring clear navigation. Overall, Alice's ranking balances immediate survival needs, environmental protection, and signaling for rescue, making it the most comprehensive and logical choice."
+}

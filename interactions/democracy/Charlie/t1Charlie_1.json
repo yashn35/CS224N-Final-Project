@@ -1,0 +1,21 @@
+{
+    "name": "Alice",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Cosmetic mirror": 3,
+        "Sunglasses (for everyone)": 4,
+        "First-aid kit": 5,
+        "Folding knife": 6,
+        "Parachute (red & white)": 7,
+        "Air map of the area": 8,
+        "Torch with 4 battery-cells": 9,
+        "Magnetic compass": 10,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 11,
+        "Overcoat (for everyone)": 12,
+        "45 calibre pistol (loaded)": 13,
+        "2 litres of 180 proof liquor": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Alice's ranking prioritizes water, the most critical resource in the Atacama Desert's extreme heat, at the top. The plastic raincoat and cosmetic mirror follow close behind for their dual purposes of providing shade and signaling for rescue. Sunglasses are ranked next for eye protection against the harsh sunlight. The first-aid kit at fifth place ensures readiness for handling any injuries. Overall, Alice's ranking covers immediate survival essentials, protection from environmental hazards, and potential rescue effectively."
+}

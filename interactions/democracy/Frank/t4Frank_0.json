@@ -1,0 +1,21 @@
+{
+    "name": "Bob",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Sunglasses (for everyone)": 2,
+        "First-aid kit": 3,
+        "Folding knife": 4,
+        "Plastic raincoat (large size)": 5,
+        "Torch with 4 battery-cells": 6,
+        "Parachute (red & white)": 7,
+        "A cosmetic mirror": 8,
+        "Magnetic compass": 9,
+        "Air map of the area": 10,
+        "Overcoat (for everyone)": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Bob's ranking prioritizes water and protection from the sun, which are crucial in a high-temperature desert environment. The sunglasses will prevent eye damage and reduce fatigue. The first-aid kit ensures any injuries can be managed, which is critical when facing harsh conditions. A folding knife and the plastic raincoat provide essential survival tools and protection. Overall, his ranking balances critical survival needs effectively with practical tools for both immediate and longer-term survival."
+}

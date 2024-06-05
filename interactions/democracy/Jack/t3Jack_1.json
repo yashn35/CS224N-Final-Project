@@ -1,0 +1,21 @@
+{
+    "name": "Bob",
+    "ranking": {
+        "2 litres of water per person": 1,
+        "Plastic raincoat (large size)": 2,
+        "Sunglasses (for everyone)": 3,
+        "Overcoat (for everyone)": 4,
+        "Cosmetic mirror": 5,
+        "First-aid kit": 6,
+        "Magnetic compass": 7,
+        "Folding knife": 8,
+        "Torch with 4 battery-cells": 9,
+        "Air map of the area": 10,
+        "Parachute (red & white)": 11,
+        "A book entitled \u2018Desert Animals That Can Be Eaten\u2019": 12,
+        "2 litres of 180 proof liquor": 13,
+        "45 calibre pistol (loaded)": 14,
+        "Bottle of 1000 salt tablets": 15
+    },
+    "explanation": "Bob's ranking prioritizes water as the most critical item, which is essential for survival in the extreme heat of the Atacama Desert. The plastic raincoat and overcoat are listed highly for their protection against the sun's intensity, which is vital to prevent heat stroke and dehydration. Sunglasses are also ranked high to prevent sun blindness and other eye issues. Bob ensures that a cosmetic mirror is included high in the list for signaling potential rescuers. The ranking also balances the need for immediate survival with practical tools like a first-aid kit and navigation aids."
+}
