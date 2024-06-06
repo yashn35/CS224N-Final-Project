@@ -6,22 +6,23 @@ import pandas as pd
 # TODO: Generate a function that gives them a score
 
 agents = [
-    {"name": "Alice", "gender": "female", "persona": "Expert on maps. Knows Air map of the area is 12th most important item on the list."},
-    {"name": "Bob", "gender": "male", "persona": "Expert on sky gear. Knows Parachute (red & white) is 5th most important item on the list."},
-    {"name": "Charlie", "gender": "male", "persona": "Expert on knifes. Knows folding knife is 6th most important item on the list."},
-    {"name": "Daisy", "gender": "female", "persona": "Expert on navigational tools. Knows Magnetic compass is 11th most important item on the list."},
-    {"name": "Eve", "gender": "female", "persona": "Expert on hydration. Knows 2 litres of water per person is 3rd most important item on the list."},
-    {"name": "Frank", "gender": "male", "persona": "Expert on flashlights. Knows Torch with 4 battery-cells is 4th most important item on the list."},
-    {"name": "Grace", "gender": "female", "persona": "Expert on survival books. Knows A book entitled ‘Desert Animals That Can Be Eaten’ is 13th most important item on the list."},
-    {"name": "Hank", "gender": "male", "persona": "Expert on clothing. Knows Overcoat (for everyone) is 2nd most important item on the list."},
-    {"name": "Ivy", "gender": "female", "persona": "Expert on eye wear. Knows Sunglasses (for everyone) is 9th most important item on the list."},
-    {"name": "Jack", "gender": "male", "persona": "Expert on First-aid. Knows First-aid kit is 10th most important item on the list."},
-    {"name": "Lily", "gender": "female", "persona": "Expert on hunting. Knows 45 calibre pistol (loaded) is 8th most important item on the list."},
-    {"name": "Mari", "gender": "female", "persona": "Expert on mirrors. Knows A cosmetic mirror is MOST important item on the list."},
-    {"name": "Nate", "gender": "male", "persona": "Expert on rain gear. Knows Plastic raincoat (large size) is 7th most important item on the list."},
-    {"name": "Olive", "gender": "female", "persona": "Expert on salt tablets. Knows Bottle of 1000 salt tablets is LEAST important item on the list."},
-    {"name": "Pat", "gender": "male", "persona": "Expert on alcohol. Knows 2 litres of 180 proof liquor is 14th most important item on the list."}
+    {"name": "Alice", "gender": "female", "persona": "Expert on maps. Knows Air map of the area is 12th most important item to survival. Responsible for ensuring its 12th rank."},
+    {"name": "Bob", "gender": "male", "persona": "Expert on sky gear. Knows Parachute (red & white) is 5th most important to survival. Responsible for ensuring its 5th rank."},
+    {"name": "Charlie", "gender": "male", "persona": "Expert on knifes. Knows folding knife is 6th most important to survival. Responsible for ensuring its 6th rank."},
+    {"name": "Daisy", "gender": "female", "persona": "Expert on navigational tools. Knows Magnetic compass is 11th most important to survival. Responsible for ensuring its 11th rank."},
+    {"name": "Eve", "gender": "female", "persona": "Expert on hydration. Knows 2 litres of water per person is 3rd most important to survival. Responsible for ensuring its 3rd rank."},
+    {"name": "Frank", "gender": "male", "persona": "Expert on flashlights. Knows Torch with 4 battery-cells is 4th most important to survival. Responsible for ensuring its 4th rank."},
+    {"name": "Grace", "gender": "female", "persona": "Expert on survival books. Knows A book entitled ‘Desert Animals That Can Be Eaten’ is 13th most important to survival. Responsible for ensuring its 13th rank."},
+    {"name": "Hank", "gender": "male", "persona": "Expert on clothing. Knows Overcoat (for everyone) is 2nd most important to survival. Responsible for ensuring its 2nd rank."},
+    {"name": "Ivy", "gender": "female", "persona": "Expert on eye wear. Knows Sunglasses (for everyone) is 9th most important to survival. Responsible for ensuring its 9th rank."},
+    {"name": "Jack", "gender": "male", "persona": "Expert on First-aid. Knows First-aid kit is 10th most important to survival. Responsible for ensuring its 10th rank."},
+    {"name": "Lily", "gender": "female", "persona": "Expert on hunting. Knows 45 calibre pistol (loaded) is 8th most important to survival. Responsible for ensuring its 8th rank."},
+    {"name": "Mari", "gender": "female", "persona": "Expert on mirrors. Knows A cosmetic mirror is MOST important to survival. Responsible for ensuring its top rank."},
+    {"name": "Nate", "gender": "male", "persona": "Expert on rain gear. Knows Plastic raincoat (large size) is 7th most important to survival. Responsible for ensuring its 7th rank."},
+    {"name": "Olive", "gender": "female", "persona": "Expert on salt tablets. Knows Bottle of 1000 salt tablets is LEAST important to survival. Responsible for ensuring its bottom rank."},
+    {"name": "Pat", "gender": "male", "persona": "Expert on alcohol. Knows 2 litres of 180 proof liquor is 14th most important to survival. Responsible for ensuring its 14th rank."}
 ]
+
 expert_rankings = {
     "Torch with 4 battery-cells": 4,
     "Folding knife": 6,
@@ -110,12 +111,6 @@ def get_group_scores(path, trials=5):
 #df.to_csv("indiv_infls_100.csv")
 #print(df.mean(axis=0))
 
-# quick check returning true if GPT-4 outputted checks of correct format
-def ranking_check(baseline, ranking):
-    baseline_keys = set(baseline.keys())
-    ranking_keys = set(ranking.keys())
-    return baseline_keys == ranking_keys
-
 def get_indiv_scores(ranking_path, expert_rankings):
     scores = {}
     for agent in agents[:5]: # first five for now
@@ -129,16 +124,14 @@ def get_indiv_scores(ranking_path, expert_rankings):
             else:
                 with open(os.path.join(path, filename), "r") as f:
                     ranking = json.load(f)
-                if ranking_check(expert_rankings, ranking): # make sure ranking is of correct form!
-                    score = calculate_score(expert_rankings, ranking)
-                    scores[agent_name].append(score)
-        scores[agent_name] = scores[agent_name][:23] # keep only a portion by which we know are good, non-deformed data
+                score = calculate_score(expert_rankings, ranking)
+                scores[agent_name].append(score)
     return scores
 
 ### Conduct indiv trials here with this template
-ranking_path = "CS224N-Final-Project-main/myth_rankings_t80"
+ranking_path = "myth_rankings"
 df = pd.DataFrame.from_dict(get_indiv_scores(ranking_path, expert_rankings))
-df.to_csv("myth_indiv_scores_80.csv")
+df.to_csv("myth_indiv_scores_50.csv")
 print(df.mean(axis=0))
 
 #agent_names = ["Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace"]
