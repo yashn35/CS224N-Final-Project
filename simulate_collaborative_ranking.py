@@ -324,7 +324,7 @@ def run_democracy(path_to_rankings, agent_names, trials=5, max_interacts=0, verb
             2c) Repeat 2a and 2b until max level of interactions is reached or agents converge
         3. The ranking that gets the most votes is selected as the group ranking
     :param:
-        verbose: print outputs and reasoning if true. saves to file if false
+        verbose: print outputs and reasoning if true. saves to file if fals
         agent_names: list of agent names
     :return: group ranking
     """
@@ -640,21 +640,86 @@ agent_names = [a['name'] for a in agents]
 run_one_by_one("rankings", agent_names, trials=5, max_interacts=1, verbose=True, debug=False)
 
 
-def run_dictatorship(path_to_rankings, agent_names, trials=5, max_interacts=1, verbose=False):
+def run_dictatorship(path_to_rankings, trial, dictator_name, agent_names, agents_dict, max_interacts=1, verbose=False):
     """
-    A randomly selected dictator considers all rankings and reasoning and decides the best ranking
-        1. Load individual rankings for the trial
-        2. Randomly choose a dictator agent
-        2. The dictator poses the question of why each agent made their ranking
-            2a) Prompt each agent to answer the dictator's question
-            2b) The dictator considers all the answers and can either ask a question or pick a ranking
-            2c) Repeat 2a and 2b until max level of interactions is reached or the dictator picks a ranking
-        3. The ranking the dictator picked is chosen to be the group's ranking
+    A dictator considers all rankings and reasoning and decides the best ranking
+    1. Load individual rankings
+    2. The dictator poses the question of why each agent made their ranking
+        2a) Prompt each agent to answer the dictator's question
+        2b) The dictator considers all the answers and can either ask a question or pick a ranking
+        2c) Repeat 2a and 2b until max level of interactions is reached or the dictator picks a ranking
+    3. The ranking the dictator picked is chosen to be the group's ranking
+    Explain their thing and then make their decision 
     :param:
         verbose: print outputs and reasoning if true. saves to file if false
         agent_names: list of agent names
+        agents_dict: dictionary of agent details
     :return: group ranking
     """
+    # Load individual rankings
+    rankings = {}
+    explanations = {}
+    for agent_name in agent_names:
+        trial_file = f"t{trial}{agent_name} copy.json"
+        with open(os.path.join(path_to_rankings, f"Trial{trial}", trial_file), "r") as f:
+            data = json.load(f)
+            rankings[agent_name] = data
+
+        if agent_name != dictator_name:
+            # Ask each agent to explain their ranking
+            prompt = f"Explain why you ranked the items in the order you did; focus on the logic; the dictactor will take into account your justification when deciding the final ranking for the group. Here is your ranking: {rankings[agent_name]}. IMPORTANT: Please be concise and limit your explenation to a pargaraph."
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": f"You are an agent in a desert survival game. Your persona is {agents_dict[agent_name]['persona']}"},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            explanations[agent_name] = response.choices[0].message.content.strip()
+
+    # Save explanation
+    explanations_file = os.path.join(path_to_rankings, f"Trial{trial}", "explanations.json")
+    with open(explanations_file, "w") as f:
+        json.dump(explanations, f, indent=4)
+
+    # print(explanations)  
+
+    if verbose:
+        print(f"Dictator = {dictator_name}")
+
+    # The dictator's decision process
+    interactions = 0
+    final_ranking = None
+    while final_ranking is None:
+            # Dictator reviews explanations and decides on final ranking 
+            prompt = f"As the dictator, consider the following rankings and explanations to decide on the final ranking. IMPORTANT: OUTPUT THE RANKINGS AS A DICTIONARY OF EACH ITEM WITH THE ITEM AND ITS CORRESPONDING RANKING. EACH RANKING MUST BE AN INTEGER BETWEEN 1 AND 15 INCLUSIVE AND EACH NUMBER MUST SHOW UP EXACTLY ONCE. DO NOT INCLUDE ANY MISCELLANEOUS INFORMATION. ONLY OUTPUT A DICTIONARY. Be thoughtful and factor all outputs. These were your original ranks {rankings[dictator_name]}:\n\n"
+            for agent_name, explanation in explanations.items():
+                if agent_name != dictator_name:
+                    prompt += f"{agent_name}'s ranking: {rankings[agent_name]}\n{agent_name}'s explanation: {explanation}\n\n"
+            
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": f"You are an agent in a desert survival game. Your persona is {agents_dict[dictator_name]['persona']}"},
+                    {"role": "user", "content": prompt},
+                    {"role": "system", "content": f"OUTPUT THE RANKINGS AS A DICTIONARY OF EACH ITEM WITH THE ITEM AND ITS CORRESPONDING RANKING. EACH RANKING MUST BE AN INTEGER BETWEEN 1 AND 15 INCLUSIVE AND EACH NUMBER MUST SHOW UP EXACTLY ONCE. DO NOT INCLUDE ANY MISCELLANEOUS INFORMATION. ONLY OUTPUT A DICTIONARY."},
+                ]
+            )
+            dictator_decision = response.choices[0].message.content.strip()
+            if dictator_decision.startswith("```") and dictator_decision.endswith("```"):
+                    dictator_decision = dictator_decision[9:-3].strip()
+            
+            try:
+                final_ranking = ast.literal_eval(dictator_decision)
+            except (ValueError, SyntaxError):
+                if verbose:
+                    print(f"Dictator {dictator_name}'s decision was not a valid ranking. Asking another question.")
+                interactions += 1
+    
+    with open(os.path.join(path_to_rankings, f"Trial{trial}", "final_ranking.json"), "w") as f:
+        json.dump(final_ranking, f, indent=4)
+
+    return final_ranking
 
 
 
