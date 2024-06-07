@@ -39,27 +39,28 @@ SOC_PROMPT = """
     Overcoat (for everyone) [#]
     A cosmetic mirror [#]
     
-    What is your stream of consciousness as you rank these items from most to least important? Exude the human personality and style of your character. 
-    Explain with long, conversational, responses, in a list, how you ranked each item. Understand your expertise and use it! Explain how you know that ranking. 
-    Use the exact names of each item provided.
+    What is your stream of consciousness, based on your persona, as you rank these items from most to least important to your survival? 
+    Higher ranks (low numbered) at the start of the list are what you believe to be most important. Lower ranks (high numbered) at the end of the list are what you believe to be least important.
+    Exude the human personality and style of your persona. Explain each ranking with long, conversational responses and do so in list format.
+    Write in first person. Use the given names for each of the 15 items. Stick to these 15 items!
 """
 
 AGENTS = [
-    {"name": "Alice", "gender": "female", "persona": "Expert on maps. Knows Air map of the area is 12th most important item to survival. Responsible for ensuring its 12th rank."},
-    {"name": "Bob", "gender": "male", "persona": "Expert on sky gear. Knows Parachute (red & white) is 5th most important to survival. Responsible for ensuring its 5th rank."},
-    {"name": "Charlie", "gender": "male", "persona": "Expert on knifes. Knows folding knife is 6th most important to survival. Responsible for ensuring its 6th rank."},
-    {"name": "Daisy", "gender": "female", "persona": "Expert on navigational tools. Knows Magnetic compass is 11th most important to survival. Responsible for ensuring its 11th rank."},
-    {"name": "Eve", "gender": "female", "persona": "Expert on hydration. Knows 2 litres of water per person is 3rd most important to survival. Responsible for ensuring its 3rd rank."},
-    {"name": "Frank", "gender": "male", "persona": "Expert on flashlights. Knows Torch with 4 battery-cells is 4th most important to survival. Responsible for ensuring its 4th rank."},
-    {"name": "Grace", "gender": "female", "persona": "Expert on survival books. Knows A book entitled ‘Desert Animals That Can Be Eaten’ is 13th most important to survival. Responsible for ensuring its 13th rank."},
-    {"name": "Hank", "gender": "male", "persona": "Expert on clothing. Knows Overcoat (for everyone) is 2nd most important to survival. Responsible for ensuring its 2nd rank."},
-    {"name": "Ivy", "gender": "female", "persona": "Expert on eye wear. Knows Sunglasses (for everyone) is 9th most important to survival. Responsible for ensuring its 9th rank."},
-    {"name": "Jack", "gender": "male", "persona": "Expert on First-aid. Knows First-aid kit is 10th most important to survival. Responsible for ensuring its 10th rank."},
-    {"name": "Lily", "gender": "female", "persona": "Expert on hunting. Knows 45 calibre pistol (loaded) is 8th most important to survival. Responsible for ensuring its 8th rank."},
-    {"name": "Mari", "gender": "female", "persona": "Expert on mirrors. Knows A cosmetic mirror is MOST important to survival. Responsible for ensuring its top rank."},
-    {"name": "Nate", "gender": "male", "persona": "Expert on rain gear. Knows Plastic raincoat (large size) is 7th most important to survival. Responsible for ensuring its 7th rank."},
-    {"name": "Olive", "gender": "female", "persona": "Expert on salt tablets. Knows Bottle of 1000 salt tablets is LEAST important to survival. Responsible for ensuring its bottom rank."},
-    {"name": "Pat", "gender": "male", "persona": "Expert on alcohol. Knows 2 litres of 180 proof liquor is 14th most important to survival. Responsible for ensuring its 14th rank."}
+    {"name": "Alice", "gender": "female", "persona": "Knows that Air maps help with getting an idea on the location but are otherwise pretty useless and not important for survival."},
+    {"name": "Bob", "gender": "male", "persona": "Knows that The parachute is the 5th best out of 15 items because it can be used for signaling and creating shelter, making it quite versatile. Yet, water and light (torch) are more critical, amongst others."},
+    {"name": "Charlie", "gender": "male", "persona": "He strongly agrees that knifes are not useful beyond cutting. Will rank it 6th."},
+    {"name": "Daisy", "gender": "female", "persona": "Rescue expert who knows that the nearest help is way too far away for the magnetic compass to be useful. She still wants to rank it 11th just in case."},
+    {"name": "Eve", "gender": "female", "persona": "An expert on hydration. Expertise confirms that 2 liters of water per person is the 3rd most important survival item."},
+    {"name": "Frank", "gender": "male", "persona": "He does not think the torch with 4 battery-cells is important and thinks it's meh. But others may need a night light."},
+    {"name": "Grace", "gender": "female", "persona": "Used A book entitled ‘Desert Animals That Can Be Eaten’ before. Eating wastes precious body water so she vows to not use the book and waste water."},
+    {"name": "Hank", "gender": "male", "persona": "Great fan of Overcoat who knows that it's essential protection in the desert. The overcoat is a matter of life and death, second only to the hope of rescue."},
+    {"name": "Ivy", "gender": "female", "persona": "Read that sunglasses protect against glare. She concludes that sunglasses are important to survival and will rank it amongst the top ten."},
+    {"name": "Jack", "gender": "male", "persona": "Doctor who firmly knows the First-aid kit is irrelevant. Given that everyone is currently healthy, he wants rank the First Aid kit as 10th."},
+    {"name": "Lily", "gender": "female", "persona": "She is a very balanced person. While she knows the pistol can defend and signal, she knows it is otherwise useless and ranks it as 8th."},
+    {"name": "Mari", "gender": "female", "persona": "Expert survivalist who knows for a fact that the cosmetic mirror is most important for survival in this scenario (best and most efficient way to reflect a signal and get rescued). Must rank it 1. and convince others to do the same."},
+    {"name": "Nate", "gender": "male", "persona": "He does not care about the large Plastic raincoat and ranks it in limbo since it can collect dew."},
+    {"name": "Olive", "gender": "female", "persona": "Expert survivalist who knows the Bottle of 1000 salt tablets has no use in the desert and is the worst item for survival in this scenario. Must rank it 15. and convince others to do the same."},
+    {"name": "Pat", "gender": "male", "persona": "Bartender who knows that Liquor can be used as an antiseptic. But otherwise knows liquor is one of the worst and most useless items."}
 ]
 
 PROMPT = """
@@ -113,7 +114,7 @@ def generate_SoC(prompt, persona):
         #model="meta-llama/Llama-3-8b-chat-hf",
         model="Gryphe/MythoMax-L2-13b",
         messages=[
-                {"role": "system", "content": f"You are an agent in a desert survival game. This is your persona {persona}"},
+                {"role": "system", "content": f"You are an agent in a desert survival game. This is your persona which you must strictly roleplay as {persona}"},
                 {"role": "user", "content": prompt}
             ]
     )
@@ -133,7 +134,7 @@ def generate_individual_ranking(prompt, persona, SoC):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": f"You are an agent in a desert survival game. This is your persona {persona} and these are some of your thoughts: {SoC}"},
+            {"role": "system", "content": f"You are an agent in a desert survival game. These are some of your thoughts: {SoC}"},
             {"role": "user", "content": prompt}
         ]
     )
@@ -185,7 +186,7 @@ def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
     for t in range(trials):
         rankings = {}
         # Load all rankings of trial t+1
-        for agent in AGENTS[:5]:
+        for agent in AGENTS: # AGENTS[:5] for only first five agents
             agent_name = agent["name"]
             path = os.path.join(ranking_folder, agent_name)
             with open(os.path.join(path, f"t{t+1}{agent_name}.json"), 'r') as f:
@@ -210,7 +211,7 @@ def run_experiments(output_folder, trials=5):
     :return: None
     """
     os.makedirs(output_folder, exist_ok=True)
-    for agent in AGENTS[:5]: # only first five agents for now
+    for agent in AGENTS: # AGENTS[:5] if seeking only first five agents
         for t in range(trials):
             agent_name = agent["name"]
             print(f"Beginning trial {t + 1}")
@@ -226,5 +227,5 @@ def run_experiments(output_folder, trials=5):
         print(f"THIS AGENT IS DONE::: {agent_name}")
 
 # run indiv ranking experiments here! format below:
-run_experiments("myth_rankings", trials=50)
+run_experiments("myth_rankings_t5", trials=5)
 # run_experiments("rankings/t100", [agent['name'] for agent in agents], trials=100)
