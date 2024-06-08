@@ -13,7 +13,7 @@ client = OpenAI(
     # This is the default so can be omitted
     # api_key=""
 )
-client2 = Together(api_key="ea6716daf547ef8048effa4c7424b7ad0ab484039bab9b0f4baac9607520b7cb")
+client2 = Together(api_key="YOUR TOGETHER API KEY")
 
 # Define the 15 items for the desert survival challenge
 items = [
@@ -22,7 +22,6 @@ items = [
     "2 litres of water per person", "A book entitled 'Desert Animals That Can Be Eaten'", "Sunglasses (for everyone)",
     "2 litres of 180 proof liquor", "Overcoat (for everyone)", "A cosmetic mirror"
 ]
-
 
 PROMPT = """
 It is approximately 10:00 am in mid-July and you have just crash landed in the Atacama Desert in South America. Your light twin-engined plane containing the bodies of the pilot and co-pilot has completely burned out with only the frame remaining. None of you have been injured.
@@ -127,6 +126,7 @@ interaction_folder = "myth_interactions"
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(interaction_folder, exist_ok=True)
 
+# function loading rankings from get_indiv_rankings_myth.py
 def load_rankings(agent_names, path, t):
     rankings = {}
     for agent in agent_names:
@@ -136,6 +136,7 @@ def load_rankings(agent_names, path, t):
     return rankings
 
 
+# function to check if the agents agree on a ranking 
 def check_converge(items_explanations, key):
     """
     :param rankings_explanations: dict of dicts. {agent_name: {key, 'explanation'}}
@@ -145,18 +146,20 @@ def check_converge(items_explanations, key):
     return chosen_names[1:] == chosen_names[:-1]
 
 
-# TODO: Update for trials and stuff
+# save interaction for one trial, interaction, step, type, and agent
 def save_interaction(agent_name, interaction, step, type, t):
     with open(os.path.join(interaction_folder, f"{agent_name}_{type}_{step}_t{t}.json"), "w") as f:
         json.dump(interaction, f, indent=4)
 
-# quick check returning true if GPT-4 outputted checks of correct format
+
+# quick check returning true if GPT-4 outputted correct format
 def ranking_check(baseline, ranking):
     baseline_keys = set(baseline.keys())
     ranking_keys = set(ranking.keys())
     baseline_values = set(baseline.values())
     ranking_values = set(ranking.values())
     return (baseline_keys == ranking_keys) and (baseline_values == ranking_values) 
+
 
 # returns new ranking dictionary given agent and all the feedback given to that agent 
 def return_new_ranking(agent, feedback_summary):
@@ -194,14 +197,15 @@ def return_new_ranking(agent, feedback_summary):
         return ast.literal_eval(rerank_content)
     except:
         return return_new_ranking(agent, feedback_summary)
-        
-# One round of feedback for one trial (like before, each agent gets 10 reviewers)
+
+
+# One round of feedback for one trial (like with direct prompting, each agent gets 10 reviewers)
 def simulate_discussion(rankings, t):
     for step in range(1):  # Rounds of discussion, that is feedback back and forth
         step_feedback = {}
         
         # Collect feedback from all agents for each agent
-        for agent in agents: # all 15 agents 
+        for agent in agents:     # all 15 agents 
             print(f"Current agent: {agent}")
             agent_name = agent["name"]
             feedback_prompt = f"""
@@ -260,6 +264,8 @@ def simulate_discussion(rankings, t):
 
     return rankings
 
+
+# function and code to run five trials (or custom if needed) of the feedback discussion 
 rankings = {}
 def run_discussion_trials(agent_names, path, trials=5):
     for t in range(trials):

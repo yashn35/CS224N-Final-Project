@@ -12,7 +12,7 @@ client = OpenAI(
     # This is the default so can be omitted
     #api_key=os.environ.get("OPENAI_API_KEY"),
 )
-client2 = Together(api_key="ea6716daf547ef8048effa4c7424b7ad0ab484039bab9b0f4baac9607520b7cb")
+client2 = Together(api_key="YOUR TOGETHER API KEY")
 
 SOC_PROMPT = """
     It is around 10:00 am in July and you have just crash landed in an unknown position within the Atacama Desert in South America. The pilot, co-pilot, and twin-engined plane have been irreversibly burnt to skeletons. Thankfully, none of you were injured.
@@ -55,7 +55,7 @@ AGENTS = [
     {"name": "Grace", "gender": "female", "persona": "Used A book entitled ‘Desert Animals That Can Be Eaten’ before. Eating wastes precious body water so she vows to not use the book and waste water."},
     {"name": "Hank", "gender": "male", "persona": "Great fan of Overcoat who knows that it's essential protection in the desert. The overcoat is a matter of life and death, second only to the hope of rescue."},
     {"name": "Ivy", "gender": "female", "persona": "Read that sunglasses protect against glare. She concludes that sunglasses are important to survival and will rank it amongst the top ten."},
-    {"name": "Jack", "gender": "male", "persona": "Doctor who firmly knows the First-aid kit is irrelevant. Given that everyone is currently healthy, he wants rank the First Aid kit as 10th."},
+    {"name": "Jack", "gender": "male", "persona": "Doctor who firmly knows the First-aid kit is irrelevant. Given that everyone is currently healthy, he wants to rank the First Aid kit as 10th."},
     {"name": "Lily", "gender": "female", "persona": "She is a very balanced person. While she knows the pistol can defend and signal, she knows it is otherwise useless and ranks it as 8th."},
     {"name": "Mari", "gender": "female", "persona": "Expert survivalist who knows for a fact that the cosmetic mirror is most important for survival in this scenario (best and most efficient way to reflect a signal and get rescued). Must rank it 1. and convince others to do the same."},
     {"name": "Nate", "gender": "male", "persona": "He does not care about the large Plastic raincoat and ranks it in limbo since it can collect dew."},
@@ -103,7 +103,7 @@ expert_rankings = {
     "A cosmetic mirror": 1
 }
 
-# Generate Stream of Consciousness 
+# function to generate a stream of consciousness reaction to the prompt for a persona
 def generate_SoC(prompt, persona):
     """
     :param prompt: SOC_PROMPT
@@ -120,7 +120,7 @@ def generate_SoC(prompt, persona):
     )
     return response.choices[0].message.content.strip()
 
-# quick check returning true if GPT-4 outputted checks of correct format
+# quick check returning true if GPT-4o outputted correct format
 def ranking_check(baseline, ranking):
     baseline_keys = set(baseline.keys())
     ranking_keys = set(ranking.keys())
@@ -128,8 +128,7 @@ def ranking_check(baseline, ranking):
     ranking_values = set(ranking.values())
     return (baseline_keys == ranking_keys) and (baseline_values == ranking_values) 
 
-# TODO: Introduce some sort of thought associated with the ranking.
-#  Iteratively adjust rankings based on previous thoughts and reflections.
+# function returning individual ranking based on a persona and its stream of consciousness reaction to the prompt
 def generate_individual_ranking(prompt, persona, SoC):
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -144,7 +143,6 @@ def generate_individual_ranking(prompt, persona, SoC):
     if message_content.startswith("```") and message_content.endswith("```"):
         message_content = message_content[9:-3].strip()
 
-    # rankings_dict = json.loads(message_content)
     try:
         rankings_dict = ast.literal_eval(message_content)
     except:
@@ -199,10 +197,7 @@ def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
         f.close()
 
 
-#agent_names = ["Alice", "Bob", "Charlie", "Daisy", "Eve", "Frank", "Grace"]
-#get_avg_rankings("rankings/t100", "avg", agent_names, trials=96)
-
-
+# function to call to run experiments for a certain number of trails. Results are dumped into output_folder.
 def run_experiments(output_folder, trials=5):
     """
     :param output_folder: string:= path to folder to hold all the rankings
@@ -226,6 +221,6 @@ def run_experiments(output_folder, trials=5):
                 json.dump(cur_rankings, f, indent=4)
         print(f"THIS AGENT IS DONE::: {agent_name}")
 
+
 # run indiv ranking experiments here! format below:
 run_experiments("myth_rankings_t5", trials=5)
-# run_experiments("rankings/t100", [agent['name'] for agent in agents], trials=100)
