@@ -1,4 +1,3 @@
-import random
 import os
 from together import Together
 from openai import OpenAI
@@ -120,6 +119,7 @@ def generate_SoC(prompt, persona):
     )
     return response.choices[0].message.content.strip()
 
+
 # quick check returning true if GPT-4o outputted correct format
 def ranking_check(baseline, ranking):
     baseline_keys = set(baseline.keys())
@@ -127,6 +127,7 @@ def ranking_check(baseline, ranking):
     baseline_values = set(baseline.values())
     ranking_values = set(ranking.values())
     return (baseline_keys == ranking_keys) and (baseline_values == ranking_values) 
+
 
 # function returning individual ranking based on a persona and its stream of consciousness reaction to the prompt
 def generate_individual_ranking(prompt, persona, SoC):
@@ -153,51 +154,7 @@ def generate_individual_ranking(prompt, persona, SoC):
     return rankings_dict
 
 
-def aggregate_rankings(rankings):
-    """
-    :param rankings: Dict of dicts {name: {item: rank, item: rank, ...}, ...}
-    Calculates new_rank for each item by averaging the ranks across names and reranking.
-    :return: Dict {item: new_rank, item: new_rank, ...}
-    """
-    avg_rankings = {}
-    for ranking in rankings.values():
-        for item in ranking.keys():
-            if item not in avg_rankings.keys():
-                avg_rankings[item] = 0
-            avg_rankings[item] += ranking[item]
-    avg_rankings_list = [(k, v) for k, v in sorted(avg_rankings.items(), key=lambda item: item[1])]
-    #print(avg_rankings_list)
-    new_rankings = {avg_rankings_list[i][0]: i+1 for i in range(len(avg_rankings_list))}
-    #print(new_rankings)
-    return new_rankings
-
-
-def get_avg_rankings(ranking_folder, output_folder, agent_names, trials=5):
-    """
-
-    :param ranking_folder: string:= path to folder where the groups rankings are stored
-    :param output_folder: string:= name of output_folder
-    :param agent_names: list of names of all agents
-    :param trials: number of repetitions
-    :return:
-    """
-    for t in range(trials):
-        rankings = {}
-        # Load all rankings of trial t+1
-        for agent in AGENTS: # AGENTS[:5] for only first five agents
-            agent_name = agent["name"]
-            path = os.path.join(ranking_folder, agent_name)
-            with open(os.path.join(path, f"t{t+1}{agent_name}.json"), 'r') as f:
-                rankings[agent_name] = json.load(f)
-            f.close()
-        # Calculate avg_rankings
-        avg_rankings = aggregate_rankings(rankings)
-        with open(os.path.join(ranking_folder, f"{output_folder}/t{t+1}{output_folder}.json"), "w") as f:
-            json.dump(avg_rankings, f, indent=4)
-        f.close()
-
-
-# function to call to run experiments for a certain number of trails. Results are dumped into output_folder.
+# function to call to run experiments for a certain number of trials. Results are dumped into output_folder.
 def run_experiments(output_folder, trials=5):
     """
     :param output_folder: string:= path to folder to hold all the rankings
